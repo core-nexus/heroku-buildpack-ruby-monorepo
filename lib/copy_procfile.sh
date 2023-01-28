@@ -12,6 +12,9 @@ copy_procfile () {
   	exit 1
   fi
 
+  # add `cd /app/subdir && ` before each command
+  sed -i -r -e "s|^(\w+:)|\1 cd ${relative_app_dir} \&\&|" "${build_dir}/Procfile"
+
   # replace relative paths (i.e. bin/rails) with absolute ones (such as /app/rails_application/bin/rails)
   sed -i -r -e "s|(bin/[a-z]+)|/app/${relative_app_dir}/\1|g" "${build_dir}/Procfile"
   sed -i -r -e "s|(config/[a-z]+)|/app/${relative_app_dir}/\1|g" "${build_dir}/Procfile"
